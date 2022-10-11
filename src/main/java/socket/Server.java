@@ -86,6 +86,7 @@ public class Server {
                 BufferedWriter bw = new BufferedWriter(osw);
                 pw = new PrintWriter(bw, true);
                 // 将该输出流存入共享集合
+                // 将临界资源作为同步监视器对象
                 // synchronized 同步监视器对象第一原则：抢谁锁谁
                 synchronized (allOut){
                     allOut.add(pw);
@@ -111,7 +112,9 @@ public class Server {
             } finally {
                 // 处理客户端断开连接后的操作
                 // 从allOut中将该客户端的输出流删除
-                allOut.remove(pw);
+                synchronized (allOut){
+                    allOut.remove(pw);
+                }
                 // 广播下线通知
                 sendMessage(host+"下线了，当前在线人数："+allOut.size());
             }
@@ -120,8 +123,10 @@ public class Server {
 
     // 将消息广播给所有客户端
     private void sendMessage(String message) {
-        for ( PrintWriter o : allOut ) {
-            o.println(message);
+        synchronized (allOut){
+            for ( PrintWriter o : allOut ) {
+                o.println(message);
+            }
         }
     }
 }
