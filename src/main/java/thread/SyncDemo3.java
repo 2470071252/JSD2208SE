@@ -24,15 +24,27 @@ public class SyncDemo3 {
 }
 
 class Foo{
-    public synchronized static void dosome(){
+    /*
+    静态方法上如果使用了synchronized，那么同步监视器对象不可选，
+    是当前类的类对象。(Foo.class)
+    class类，它的每一个实例用于表示JVM加载的一个类，因此Class类的实例
+    就被称为一个类的类对象，在JVM内部每个被加载的类都有且只有一个Class
+    实例与之对应
+     */
+    //    public synchronized static void dosome(){
+    public static void dosome(){
         Thread t = Thread.currentThread();
-        System.out.println(t.getName()+"：正在执行dosome方法");
-        try {
-            Thread.sleep(5000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+        System.out.println(t.getName()+"程序开始");
+        synchronized (Foo.class){   // 只要在静态方法用使用同步块，同步监视器对象使用类名.class(当前类对象) 一定好使
+            System.out.println(t.getName()+"：正在执行dosome方法");
+            try {
+                Thread.sleep(5000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            System.out.println(t.getName()+"：执行dosome方法完毕");
         }
-        System.out.println(t.getName()+"：执行dosome方法完毕");
+
     }
 }
 
