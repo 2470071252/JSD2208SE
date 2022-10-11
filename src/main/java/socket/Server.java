@@ -21,8 +21,6 @@ public class Server {
     private ServerSocket serverSocket;
     // 用来保存所有客户端的输出流
     private List<PrintWriter> allOut = new ArrayList<>();
-    private List<Socket> allSocket = new ArrayList<>();
-
 
     public Server() {
         try {
@@ -63,16 +61,22 @@ public class Server {
      */
     private class ClientHandler implements Runnable {
         private Socket socket;
+        private String host; // 记录客户端的IP地址
 
         public ClientHandler(Socket socket) {
             this.socket = socket;
+            // 通过socket获取远端计算机的地址信息(IP地址)
+            host = socket.getInetAddress().getHostAddress();
         }
 
         @Override
         public void run() {
-            try {
-                // 通过socket获取输入流读取自远端计算机发送过来的数据
-                InputStream in = socket.getInputStream();
+            PrintWriter pw = null;
+            try(
+                    // 通过socket获取输入流读取自远端计算机发送过来的数据
+                    InputStream in = socket.getInputStream();
+                    ){
+
                 InputStreamReader isr = new InputStreamReader(in, UTF_8);
                 BufferedReader br = new BufferedReader(isr);
 
@@ -80,10 +84,10 @@ public class Server {
                 OutputStream os = socket.getOutputStream();
                 OutputStreamWriter osw = new OutputStreamWriter(os, UTF_8);
                 BufferedWriter bw = new BufferedWriter(osw);
-                PrintWriter pw = new PrintWriter(bw, true);
+                pw = new PrintWriter(bw, true);
                 // 将该输出流存入共享集合
                 allOut.add(pw);
-                allSocket.add(socket);
+                sendMessage(host + "上线了，当前在线人数：" + allOut.size());
 
                 // 读取一行来自远端计算机发送过来的字符串
                 String fromClientMessages;
@@ -95,23 +99,26 @@ public class Server {
                 抛出异常：java.net.SocketException: Connection reset
                  */
                 while ((fromClientMessages = br.readLine()) != null) {
-                    System.out.println("来自客户端" + socket.getInetAddress() + "的消息： " + fromClientMessages);
+                    System.out.println("来自客户端" + host + "的消息： " + fromClientMessages);
                     // 将消息广播给所有客户端
-                    /*
-                    for ( PrintWriter o : allOut ) {
-                        o.println("客户端说：" + fromClientMessages);
-                    }
-                    */
-                    for ( PrintWriter o : allOut ) {
-//                        o.println("客户端说："+fromClientMessages);
-                        for ( Socket so : allSocket ) {
-                            o.println("来自客户端"+so.getInetAddress()+"的消息： "+fromClientMessages);
-                        }
-                    }
+                    sendMessage("来自客户端" + host + "的消息： " + fromClientMessages);
                 }
             } catch (IOException e) {
-                e.printStackTrace();
+
+            } finally {
+                // 处理客户端断开连接后的操作
+                // 从allOut中将该客户端的输出流删除
+                allOut.remove(pw);
+                // 广播下线通知
+                sendMessage(host+"下线了，当前在线人数："+allOut.size());
             }
+        }
+    }
+
+    // 将消息广播给所有客户端
+    private void sendMessage(String message) {
+        for ( PrintWriter o : allOut ) {
+            o.println(message);
         }
     }
 }
