@@ -15,3 +15,10 @@ public class SyncDemo2 {
 
     }
 }
+
+class shop{
+    public void buy(){
+
+        System.out.println("");
+    }
+}
