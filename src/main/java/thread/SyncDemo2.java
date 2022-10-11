@@ -11,4 +11,7 @@ package thread;
  *
  */
 public class SyncDemo2 {
+    public static void main(String[] args) {
+
+    }
 }
