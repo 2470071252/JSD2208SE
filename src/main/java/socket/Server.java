@@ -86,7 +86,10 @@ public class Server {
                 BufferedWriter bw = new BufferedWriter(osw);
                 pw = new PrintWriter(bw, true);
                 // 将该输出流存入共享集合
-                allOut.add(pw);
+                // synchronized 同步监视器对象第一原则：抢谁锁谁
+                synchronized (allOut){
+                    allOut.add(pw);
+                }
                 sendMessage(host + "上线了，当前在线人数：" + allOut.size());
 
                 // 读取一行来自远端计算机发送过来的字符串

@@ -87,7 +87,7 @@ public class Client {
                     System.out.println(message);
                 }
             } catch (IOException e) {
-                e.printStackTrace();
+//                e.printStackTrace();
             }
 
         }
