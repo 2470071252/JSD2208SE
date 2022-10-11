@@ -38,11 +38,21 @@ public class SyncDemo1 {
 class Table{
     private int beans = 20; // 桌子上有20个豆子
 
+    /**
+     * 当一个方法使用synchronized修饰后，这个方法称为"同步方法"
+     * 即：多个线程不能同时在该方法内部执行
+     * 同步与异步执行
+     * 上述两种执行方式都是指多线程的执行方式，同步执行指的是多个线程在
+     * 执行某个任务时存在先后顺序的有序执行，而异步执行则是指他们之间
+     * 是互补干涉的一起执行
+     *
+     */
     public  synchronized int getBean(){  // synchronized 同步锁
         if (beans==0){
             throw new RuntimeException("没有豆子了！");
         }
         Thread.yield();
         return beans--;
+
     }
 }
