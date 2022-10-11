@@ -38,7 +38,7 @@ public class SyncDemo1 {
 class Table{
     private int beans = 20; // 桌子上有20个豆子
 
-    public int getBean(){
+    public  synchronized int getBean(){  // synchronized 同步锁
         if (beans==0){
             throw new RuntimeException("没有豆子了！");
         }
