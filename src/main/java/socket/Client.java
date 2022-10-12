@@ -19,6 +19,7 @@ public class Client {
 
     public Client() {
         /*
+
         实例化Socket时就是与服务端建立连接的过程，这里需要传入两个参数
         参数1；IP地址
         参数2: 端口
