@@ -1,5 +1,6 @@
 package map;
 
+import javax.xml.crypto.dom.DOMCryptoContext;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -25,7 +26,11 @@ public class MapDemo1 {
         /*
            V put(K k,V v)
            向Map中添加一组键值对。
+           由于Map中的key不允许重复，如果使用Map中已有的key存放value时
+           则是替换value操作并将被替换的value返回。如果没有任何替换时，返回值为null
          */
+        Double v = map.put("地理", (double) 99);
+        System.out.println(v);
         map.put("语文", (double) 99);
         map.put("数学", (double) 97);
         map.put("英语", (double) 96);
@@ -33,5 +38,8 @@ public class MapDemo1 {
         map.put("物理", (double) 94);
         System.out.println(map);
 
+        v = map.put("数学",(double)60);
+        System.out.println(v);
+        System.out.println(map);
     }
 }
