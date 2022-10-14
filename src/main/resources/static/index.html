@@ -7,12 +7,49 @@
 <body>
 <!--
     <h1-h6>标签：标题，标题独占一行，有1级-6级标题
+
+        常见样式：
+    type = "text"   文本框
+    type = "password"   密码框
+    type = "button"   按钮
+    单选框和多选框要使用name属性分组
+    type = "checkbox"  多选框
+    type = "radio"   单选框
+    <br> 标签：换行
  -->
 <center>
     <h1 >百度</h1>
     <input type="text" size="32">
-    <input type="button" value="百度一下">
+    <input type="button" value="百度一下"><br>
+    <input type="radio" name="gender"> 男 <input type="radio" name="gender"> 女 <br>
+    兴趣爱好：
+    <input type="checkbox" name="hob" id="1">游戏
+    <input type="checkbox" name="hob" id="2">旅游
+    <input type="checkbox" name="hob" id="3">骑行
+    <input type="checkbox" name="hob" id="4">动漫
     <br>
+    <a href="http://www.taobao.com">淘宝</a>
+    <a href="http://www.baidu.com">百度</a>
+    <a href="http://www.jd.com">京东</a>
+    <br>
+    <table border="1">
+        <tr>
+            <td>第一列</td>
+            <td colspan="2" align="center">第二列</td>
+            <td>第三列</td>
+        </tr>
+        <tr>
+            <td>第一列</td>
+            <td rowspan="2">第二列</td>
+            <td>第三列</td>
+            <td>第四列</td>
+        </tr>
+        <tr>
+            <td>第一列</td>
+            <td>第三列</td>
+            <td>第四列</td>
+        </tr>
+    </table>
 
 </center>
 </body>
