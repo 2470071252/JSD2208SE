@@ -29,6 +29,7 @@ public class MapDemo1 {
            由于Map中的key不允许重复，如果使用Map中已有的key存放value时
            则是替换value操作并将被替换的value返回。如果没有任何替换时，返回值为null
          */
+        // 如果Map的value是包装类类型时，要用包装类定义的变量接收返回值，避免使用基本类型因自动拆箱导致空指针异常
         Double v = map.put("地理", (double) 99);
         System.out.println(v);
         map.put("语文", (double) 99);
@@ -37,9 +38,15 @@ public class MapDemo1 {
         map.put("化学", (double) 92);
         map.put("物理", (double) 94);
         System.out.println(map);
-
+        // 会将数学原来对应的value返回
         v = map.put("数学",(double)60);
         System.out.println(v);
         System.out.println(map);
+        /*
+            V get(Object key)
+            根据给定的key获取对应的value
+         */
+        v = map.get("英语");
+        System.out.println(v);
     }
 }
