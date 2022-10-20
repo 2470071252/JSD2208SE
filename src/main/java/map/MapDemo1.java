@@ -1,6 +1,5 @@
 package map;
 
-import javax.xml.crypto.dom.DOMCryptoContext;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -54,5 +53,26 @@ public class MapDemo1 {
          */
         int size = map.size();
         System.out.println("size:"+size);
+
+        /*
+            V remove(Object key)
+            删除Map中指定的Key对应的这组键值对。返回值为这个Key对应的Value
+         */
+        // v为对应key的value
+        v = map.remove("数学");
+        System.out.println(v);
+        System.out.println(map);
+
+        //判断当前Map是否包含Key：“物理”
+        boolean ck = map.containsKey("物理");
+        //判断当前Map是否包含Value：92.0
+        boolean cv = map.containsValue((double)92);
+        System.out.println(ck+","+cv);
+
+
+
+        // 清空map
+//        map.clear();
+//        System.out.println(map);
     }
 }
